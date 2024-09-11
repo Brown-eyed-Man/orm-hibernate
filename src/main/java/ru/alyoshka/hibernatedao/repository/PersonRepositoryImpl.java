@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.alyoshka.hibernatedao.entity.Contact;
 import ru.alyoshka.hibernatedao.entity.Person;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -54,15 +53,10 @@ public class PersonRepositoryImpl implements PersonRepository {
     @Override
     @Transactional
     public List<Person> getPersonsByCity(String city) {
-        List<Person> personList = new ArrayList<>();
+        String hql = "SELECT p FROM Person p WHERE LOWER(p.cityOfLiving) = LOWER(:city)";
+        return entityManager.createQuery(hql)
+                .setParameter("city", city)
+                .getResultList();
 
-        for (Person person: people) {
-            Contact contact = person.getContact();
-            Person findPerson = entityManager.find(Person.class, contact);
-            if (findPerson.getCityOfLiving().equalsIgnoreCase(city)) {
-                personList.add(findPerson);
-            }
-        }
-        return personList;
     }
 }
