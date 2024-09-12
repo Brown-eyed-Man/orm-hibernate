@@ -16,13 +16,22 @@ import java.util.List;
 public class PersonController {
     private final PersonService service;
 
-    @GetMapping("/create")
-    public void createTable() {
-        service.createTable();
+    //  ИЗНАЧАЛЬНО ЗАПУСТИТЬ schema.sql ИЗ ПАПКИ resources для создания таблицы с данными.
+    //  http://localhost:8080/persons/find-by-city?city=Москва
+    @GetMapping("/find-by-city")
+    public List<Person> findByCity(@RequestParam("city") String city) {
+        return service.findByCity(city);
     }
 
-    @GetMapping("/by-city")
-    public List<Person> getPersonByCity(@RequestParam(value = "city") String city) {
-        return service.getPersonByCity(city);
+    //  http://localhost:8080/persons/find-by-name-and-surname?name=Алексей&surname=Копатыч
+    @GetMapping("/find-by-name-and-surname")
+    public List<Person> findByNameAndSurname(@RequestParam("name") String name, @RequestParam("surname") String surname) {
+        return service.findByNameAndSurname(name, surname);
+    }
+
+    //  http://localhost:8080/persons/by-age-less?age=17
+    @GetMapping("/by-age-less")
+    public List<Person> findByAgeAndOrder (@RequestParam(value = "age") int age) {
+        return service.findByAgeLessThanOrderByAgeAsc(age);
     }
 }
