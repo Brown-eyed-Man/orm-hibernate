@@ -34,4 +34,9 @@ public class PersonController {
     public List<Person> findByAgeAndOrder (@RequestParam(value = "age") int age) {
         return service.findByAgeLessThanOrderByAgeAsc(age);
     }
+
+    @GetMapping("hello")
+    public String hello() {
+        return "Hello :)";
+    }
 }
